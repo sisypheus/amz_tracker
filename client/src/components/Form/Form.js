@@ -1,19 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import FileBase from 'react-file-base64';
 import useStyles from './styles';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createPost } from '../../actions/posts';
+import { getImageUrl } from '../../actions/image'
 
 const Form = () => {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const [postData, setPostData] = useState({
         creator: '', title: '', message: '', tags: '', selectedFile: '' });
-    const dispatch = useDispatch();
+    let imageUrl = useSelector(state => state.image);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(createPost(postData));
+        const success = !verifyLink(postData.title);
+        if (!success) {
+            //red thing error la
+            console.log('Incorrect link.');
+        } else {
+            //clear le form et ajouter le post
+            dispatch(createPost(postData));
+        }
+    }
+
+    const verifyLink = (link) => {
+        let valid = true;
+
+        if (link.substring(0, 11) == "www.amazon.") {
+            link = 'https://' + link;
+            valid = true;
+        } else if (link.substring(0, 15) == "https://amazon.") {
+            valid = true;
+        } else if (link.substring(0, 19) == "https://www.amazon.") {
+            valid = true;
+        } else
+            return false;
+        dispatch(getImageUrl(link))
+            .then((res) => {
+                if (!res)
+                    return false;
+                return res.message;
+            });
     }
 
     return (
@@ -35,7 +64,6 @@ const Form = () => {
                 </div>
 
                 <Button className={classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" fullWidth>Add</Button>
-                {/*<Button variant="contained" color="primary" size="large" type="submit" fulllWidth>Add</Button>*/}
             </form>
         </Paper>
     );

@@ -7,10 +7,6 @@ const postSchema = mongoose.Schema({
     //target: String
     title: String,
     description: String,
-    createdAt: {
-        type: Date,
-        default: new Date()
-    },
     tags: [String],
     selectedFile: String,
 });

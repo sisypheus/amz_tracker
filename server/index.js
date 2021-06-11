@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 
 import postRoutes from './routes/posts.js';
+import imageRoutes from './routes/images.js';
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(bodyParser.urlencoded({limit: "30mb", extended: true}));
 app.use(cors());
 
 app.use('/posts', postRoutes);
+app.use('/image', imageRoutes);
 const CONNECTION_URL = "mongodb+srv://theo:9876@cluster0.slmdk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const PORT = process.env.PORT || 5000;
 
