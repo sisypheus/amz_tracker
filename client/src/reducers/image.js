@@ -1,9 +1,9 @@
-const imageReducer = (image = [], action) => {
+const imageReducer = (state = '', action) => {
     switch (action.type) {
         case 'IMAGE':
-            return [...image, action.payload];
+            return action.payload;
         default:
-            return image;
+            return state;
     }
 };
 

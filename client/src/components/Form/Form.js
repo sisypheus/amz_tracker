@@ -11,21 +11,28 @@ const Form = () => {
     const dispatch = useDispatch();
     const [postData, setPostData] = useState({
         creator: '', title: '', message: '', tags: '', selectedFile: '' });
-    let imageUrl = useSelector(state => state.image);
+    let imageFetching = useSelector(state => state.image);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const success = !verifyLink(postData.title);
-        if (!success) {
-            //red thing error la
-            console.log('Incorrect link.');
-        } else {
-            //clear le form et ajouter le post
-            dispatch(createPost(postData));
-        }
+        postData.title = encodeURI(postData.title);
+        verifyAndGetSrc(postData.title)
+            .then((res) => {
+                console.log(res.message);
+                dispatch(createPost(postData));
+                clearForm();
+            })
+            .catch((err) => {
+                //Red ui thing
+                console.error(err);
+            });
     }
 
-    const verifyLink = (link) => {
+    const clearForm = () => {
+        setPostData({title: ''});
+    };
+
+    const verifyAndGetSrc = (link) => {
         let valid = true;
 
         if (link.substring(0, 11) == "www.amazon.") {
@@ -37,12 +44,7 @@ const Form = () => {
             valid = true;
         } else
             return false;
-        dispatch(getImageUrl(link))
-            .then((res) => {
-                if (!res)
-                    return false;
-                return res.message;
-            });
+        return dispatch(getImageUrl(link));
     }
 
     return (
@@ -55,12 +57,9 @@ const Form = () => {
                     onChange={(e) => setPostData({ ...postData, title: e.target.value })}
                 />
 
-                <div className={classes.fileInput}>
-                    <FileBase 
-                        type="file"
-                        multiple={false}
-                        onDone={({base64}) => setPostData({ ...postData, selectedFile: base64})}
-                    />
+                <div>
+                    [PLACEHOLDER]
+                    Hidden color confirmation for post
                 </div>
 
                 <Button className={classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" fullWidth>Add</Button>

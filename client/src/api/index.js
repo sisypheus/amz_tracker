@@ -5,7 +5,4 @@ const url2 = 'http://localhost:5000/image';
 
 export const fetchPosts = () => axios.get(url);
 export const createPost = (newPost) => axios.post(url, newPost);
-export const getImageUrl = (link) => {
-    let encode = encodeURI(link);
-    return axios.get(url2, { params: {encode}});
-};
+export const getImageUrl = (link) => { return axios.get(url2, { params: {link}}) };
