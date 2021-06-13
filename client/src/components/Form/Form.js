@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import FileBase from 'react-file-base64';
 import useStyles from './styles';
-import { TextField, Button, Typography, Paper } from '@material-ui/core';
+import { TextField, Button, Typography, Paper, Snackbar } from '@material-ui/core';
+import { Alert } from '@material-ui/lab'
 import { useDispatch, useSelector } from 'react-redux';
 import { createPost } from '../../actions/posts';
 import { getImageUrl } from '../../actions/image'
@@ -11,7 +12,8 @@ const Form = () => {
     const dispatch = useDispatch();
     const [postData, setPostData] = useState({
         creator: '', title: '', message: '', tags: '', selectedFile: '' });
-    let imageFetching = useSelector(state => state.image);
+    const [open, setOpen] = useState(false);
+    const imageSuccess = useSelector(state => state.image);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -19,6 +21,7 @@ const Form = () => {
         verifyAndGetSrc(postData.title)
             .then((res) => {
                 console.log(res.message);
+                setOpen(true);
                 dispatch(createPost(postData));
                 clearForm();
             })
@@ -47,6 +50,10 @@ const Form = () => {
         return dispatch(getImageUrl(link));
     }
 
+    const handleClose = () => {
+        setOpen(false);
+    }
+
     return (
         <Paper className={classes.paper}>
             <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
@@ -56,11 +63,12 @@ const Form = () => {
                     value={postData.title}
                     onChange={(e) => setPostData({ ...postData, title: e.target.value })}
                 />
-
-                <div>
-                    [PLACEHOLDER]
-                    Hidden color confirmation for post
-                </div>
+            
+                <Snackbar open={open} onClose={handleClose} autoHideDuration={2000} >
+                    <Alert variant="filled" severity="success">
+                        Item added successfully!
+                    </Alert>
+                </Snackbar>
 
                 <Button className={classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" fullWidth>Add</Button>
             </form>
