@@ -6,10 +6,14 @@ import useStyles from './styles';
 
 const Post = ({ post }) => {
     const classes = useStyles();
+    const defaultImage = 'https://axiscoffeeshop.com/wp-content/uploads/2015/11/placeholder.jpg';
 
     return (
         <Card className={classes.card}>
-            <CardMedia className={classes.media} image={post.selectedFile} title={post.title}/>
+            <CardMedia
+                className={classes.media}
+                image={post.selectedFile ? post.selectedFile : defaultImage} title={post.title}
+            />
 
             <div className={classes.overlay2}>
                 <Button style={{color: 'white'}} size="small" onClick={() => {}}>
@@ -18,7 +22,12 @@ const Post = ({ post }) => {
             </div>
 
             <CardContent>
-                <Typography className={classes.title} variant="h5" gutterBottom>{post.title}</Typography>
+                <Typography
+                    className={classes.title}
+                    variant="h5"
+                    gutterBottom>
+                        {post.title ? post.title : 'Unknown product'}
+                    </Typography>
             </CardContent>
 
             <CardActions className={classes.cardActions}>

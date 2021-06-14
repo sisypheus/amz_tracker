@@ -11,3 +11,13 @@ export const getImageUrl = (link) => async (dispatch) => {
         return err;
     }
 }
+
+export const getTitle = (link) => async (dispatch) => {
+    try {
+        const { data } = await api.getTitle(link);
+        return data;
+    } catch (err) {
+        console.log(err.message);
+        return err;
+    }
+}

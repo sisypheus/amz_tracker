@@ -5,6 +5,7 @@ import cors from 'cors';
 
 import postRoutes from './routes/posts.js';
 import imageRoutes from './routes/images.js';
+import titleRoutes from './routes/title.js';
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(cors());
 
 app.use('/posts', postRoutes);
 app.use('/image', imageRoutes);
+app.use('/title', titleRoutes);
 const CONNECTION_URL = "mongodb+srv://theo:9876@cluster0.slmdk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const PORT = process.env.PORT || 5000;
 

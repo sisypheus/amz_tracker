@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const url = 'http://localhost:5000/posts';
-const url2 = 'http://localhost:5000/image';
+const url = 'http://localhost:5000';
 
-export const fetchPosts = () => axios.get(url);
-export const createPost = (newPost) => axios.post(url, newPost);
-export const getImageUrl = (link) => { return axios.get(url2, { params: {link}}) };
+export const fetchPosts = () => axios.get(url + '/posts');
+export const createPost = (newPost) => axios.post(url + '/posts', newPost);
+export const getImageUrl = (link) => { return axios.get(url + '/image', { params: {link}}) };
+export const getTitle = (link) => { return axios.get(url + '/title', { params: {link}}) };
