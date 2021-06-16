@@ -9,8 +9,7 @@ export const getTitle = async (req, res) => {
             }
         }); 
         const $ = cheerio.load(data);
-        const result = $('#productTitle').attr('src');
-        console.log(result);
+        const result = $('#productTitle').text();
         res.status(200).json({ message: result });
     } catch (e) {
         res.status(409).json({ message: e.message });

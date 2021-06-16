@@ -9,7 +9,7 @@ export const getImageUrl = async (req, res) => {
             }
         }); 
         const $ = cheerio.load(data);
-        const result = $('#landingImage').attr('src');
+        const result = $('#landingImage').attr('data-old-hires');
         console.log(result);
         res.status(200).json({ message: result });
     } catch (e) {

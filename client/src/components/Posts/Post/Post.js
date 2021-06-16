@@ -12,7 +12,7 @@ const Post = ({ post }) => {
         <Card className={classes.card}>
             <CardMedia
                 className={classes.media}
-                image={post.selectedFile ? post.selectedFile : defaultImage} title={post.title}
+                image={post.image ? post.image : defaultImage} title={post.title}
             />
 
             <div className={classes.overlay2}>
@@ -26,7 +26,7 @@ const Post = ({ post }) => {
                     className={classes.title}
                     variant="h5"
                     gutterBottom>
-                        {post.title ? post.title : 'Unknown product'}
+                        {post.title ? post.title.substring(0, 80) + '...' : 'Unknown product'}
                     </Typography>
             </CardContent>
 
