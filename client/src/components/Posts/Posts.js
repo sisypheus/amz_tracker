@@ -15,7 +15,7 @@ const Posts = () => {
 
     const showIndicator = () => {
         if (firstRender)
-            return <Typography variant="h3">No Item yet</Typography>
+            return <Typography variant="h4">No Item yet.</Typography>
         return <CircularProgress />;
     };
 

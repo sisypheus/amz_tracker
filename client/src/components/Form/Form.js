@@ -90,7 +90,8 @@ const Form = () => {
                     </Alert>
                 </Snackbar>
 
-                <Button className={classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" fullWidth>Add</Button>
+                <Button className={classes.buttonSubmit} style={{backgroundColor: "#4caf50"}}
+                variant="contained" size="large" type="submit" fullWidth>Add</Button>
             </form>
         </Paper>
     );

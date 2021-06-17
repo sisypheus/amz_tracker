@@ -23,18 +23,14 @@ const App = () => {
                 <Typography className={classes.heading} variant="h2" align="center">Tracker</Typography>
             </AppBar>
 
+            <Form />
+
             <Grow in>
                 <Container>
-                    <Grid container justify="space-between" alignItems="stretch" spacing={3}>
-                        <>
-                            <Grid item xs={12} sm={4}>
-                                <Form />
-                            </Grid>
-
-                            <Grid item xs={12} sm={7}>
-                                <Posts />
-                            </Grid>
-                        </>
+                    <Grid container justify="space-between" alignItems="stretch" spacing={4}>
+                        <Grid item xs={12} sm={12}>
+                            <Posts />
+                        </Grid>
                     </Grid>
                 </Container>
             </Grow>
