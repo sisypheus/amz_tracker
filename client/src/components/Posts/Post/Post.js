@@ -1,12 +1,29 @@
-import React from 'react';
-import { Card, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
+import React, { useRef, useState, useEffect } from 'react';
+import { Card, CardActions, CardContent, CardMedia, Button, Typography, Popover } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+import CreateIcon from '@material-ui/icons/Create';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import useStyles from './styles';
+import { useDispatch } from 'react-redux';
+import { deletePost } from '../../../actions/posts'
 
 const Post = ({ post, setCurrentId }) => {
     const classes = useStyles();
     const defaultImage = 'https://axiscoffeeshop.com/wp-content/uploads/2015/11/placeholder.jpg';
+    const dispatch = useDispatch();
+    const divRef = useRef();
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handleActions = () => {
+
+    }
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
+    const id = open ? "simple-popover" : undefined;
 
     return (
         <Card className={classes.card}>
@@ -16,26 +33,43 @@ const Post = ({ post, setCurrentId }) => {
             />
 
             <div className={classes.overlay2}>
-                <Button style={{color: 'white'}} size="small" onClick={() => { setCurrentId(post._id) }}>
-                    <MoreHorizIcon fontSize="default" />
+                <Button style={{color: 'white'}} size="small" onClick={() => setAnchorEl(divRef.current)}>
+                    <MoreHorizIcon fontSize="default" ref={divRef} />
                 </Button>
             </div>
+
+            <Popover
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center"
+                }}
+            >
+                <CardActions className={classes.cardActions}>
+                    <Button size="small" color="secondary" onClick={() => dispatch(deletePost(post._id))} >
+                        <DeleteIcon fontSize="small" />
+                    Delete
+                    </Button>
+                </CardActions>
+
+                <CardActions className={classes.cardActions}>
+                    <Button size="small" color="primary" onClick={() => { setCurrentId(post._id); handleClose() }}>
+                        <CreateIcon fontSize="small" />
+                    Edit
+                    </Button>
+                </CardActions>
+            </Popover>
 
             <CardContent>
                 <Typography
                     className={classes.title}
                     variant="h5"
                     gutterBottom>
-                        {post.title ? post.title.substring(0, 80) + '...' : 'Unknown product'}
+                        {post.title ? (post.title.length < 79 ? post.title : post.title.substring(0, 80) + '...') : 'Unknown product'}
                     </Typography>
             </CardContent>
-
-            <CardActions className={classes.cardActions}>
-                <Button size="small" color="primary" onClick={() => {}} >
-                    <DeleteIcon fontSize="small" />
-                    Delete
-                </Button>
-            </CardActions>
         </Card>
     );
 }

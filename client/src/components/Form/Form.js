@@ -55,13 +55,14 @@ const Form = ({ setCurrentId, currentId }) => {
     useEffect(() => {
         if (post)
             setPostData(post);
-    }, [post])
-
-    useEffect(() => {
-        if (postData.image && postData.title && !currentId)
-            dispatch(createPost(postData));
-        else if (postData.image && postData.title && currentId)
-            dispatch(updatePost(currentId, postData));
+        }, [post])
+        
+        useEffect(() => {
+            if (postData.image && postData.title && !currentId)
+                dispatch(createPost(postData));
+            else if (postData.image && postData.title && currentId)
+                dispatch(updatePost(currentId, postData));
+            // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [postData.image, postData.title])
 
     const verifyLink = (link) => {

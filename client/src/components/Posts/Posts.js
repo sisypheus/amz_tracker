@@ -11,6 +11,7 @@ const Posts = ({ setCurrentId }) => {
 
     useEffect(() => {
         setRender(!firstRender);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [posts]);
 
     const showIndicator = () => {
