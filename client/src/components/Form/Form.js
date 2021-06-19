@@ -2,17 +2,18 @@ import React, { useState, useEffect } from 'react';
 import useStyles from './styles';
 import { TextField, Button, Typography, Paper, Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab'
-import { useDispatch } from 'react-redux';
-import { createPost } from '../../actions/posts';
+import { useDispatch, useSelector } from 'react-redux';
+import { createPost, updatePost } from '../../actions/posts';
 import { getImageUrl, getTitle } from '../../actions/image'
 
-const Form = () => {
+const Form = ({ setCurrentId, currentId }) => {
     const [formSuccess, setFormSuccess] = useState('error');
     const [alertMessage, setAlertMessage] = useState('Something went wrong');
     const classes = useStyles();
     const dispatch = useDispatch();
     const [postData, setPostData] = useState({url: '', title: '', image: ''});
     const [open, setOpen] = useState(false);
+    const post = useSelector((state) => (currentId ? state.posts.find((p) => p._id === currentId) : null));
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -39,7 +40,7 @@ const Form = () => {
         } else {
             data[1].message = data[1].message.replace(/\n/g,'');
             setFormSuccess('success');
-            setAlertMessage('Item successfully added');
+            currentId ? setAlertMessage('Item successfully edited') : setAlertMessage('Item successfully added');
             setOpen(true);
             setPostData({ ...postData, image: data[0].message, title: data[1].message });
             clearForm();
@@ -47,12 +48,20 @@ const Form = () => {
     }
 
     const clearForm = () => {
-        setPostData({url: '', image: '', title:''});
+        setPostData({ url: '', image: '', title: '' });
+        setCurrentId(null);
     };
 
     useEffect(() => {
-        if (postData.image && postData.title)
+        if (post)
+            setPostData(post);
+    }, [post])
+
+    useEffect(() => {
+        if (postData.image && postData.title && !currentId)
             dispatch(createPost(postData));
+        else if (postData.image && postData.title && currentId)
+            dispatch(updatePost(currentId, postData));
     }, [postData.image, postData.title])
 
     const verifyLink = (link) => {
@@ -77,7 +86,7 @@ const Form = () => {
     return (
         <Paper className={classes.paper}>
             <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
-                <Typography variant="h6">Add an item</Typography>
+                <Typography variant="h6">{currentId ? 'Edit' : 'Add'} an item</Typography>
                 <TextField
                     name="Product url" variant="outlined" label="Product url" fullWidth
                     value={postData.url}
