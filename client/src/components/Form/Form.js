@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import useStyles from './styles';
-import { TextField, Button, Typography, Paper, Snackbar } from '@material-ui/core';
+import { TextField, Button, Typography, Paper, Snackbar, InputAdornment } from '@material-ui/core';
 import { Alert } from '@material-ui/lab'
 import { useDispatch, useSelector } from 'react-redux';
 import { createPost, updatePost } from '../../actions/posts';
@@ -89,9 +89,19 @@ const Form = ({ setCurrentId, currentId }) => {
             <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
                 <Typography variant="h6">{currentId ? 'Edit' : 'Add'} an item</Typography>
                 <TextField
-                    name="Product url" variant="outlined" label="Product url" fullWidth
+                    name="Product url" label="Product url" fullWidth
                     value={postData.url}
                     onChange={(e) => setPostData({ ...postData, url: e.target.value })}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <Button className={classes.buttonSubmit} style={{backgroundColor: "#4caf50"}}
+                                variant="contained" size="large" type="submit">
+                                    Add
+                                </Button>
+                            </InputAdornment>
+                        ),
+                    }}
                 />
             
                 <Snackbar open={open} onClose={handleClose} autoHideDuration={2000} >
@@ -100,8 +110,6 @@ const Form = ({ setCurrentId, currentId }) => {
                     </Alert>
                 </Snackbar>
 
-                <Button className={classes.buttonSubmit} style={{backgroundColor: "#4caf50"}}
-                variant="contained" size="large" type="submit" fullWidth>Add</Button>
             </form>
         </Paper>
     );
