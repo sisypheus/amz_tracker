@@ -31,10 +31,10 @@ const App = () => {
                         </AppBar>
 
                         <div id="background">
-                            <Grow in>
-                                <Container>
+                            <Grow in style={{paddingTop: '12vh'}}>
+                                <Container style={{overflow: 'auto', maxHeight: '97%'}}>
                                     <Grid container justify="space-between" alignItems="stretch" spacing={4}>
-                                        <Grid item xs={12} sm={12} style={{ flexGrow: '0', overflow: 'auto'}}>
+                                        <Grid item xs={12} sm={12}>
                                             <Posts setCurrentId={setCurrentId} />
                                         </Grid>
                                     </Grid>
