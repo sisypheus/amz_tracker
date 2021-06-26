@@ -34,6 +34,7 @@ const Form = ({ setCurrentId, currentId }) => {
         ]);
         const data = result.filter(result => !(result instanceof Error));
         if (data.length !== 2) {
+            console.log('ici');
             setFormSuccess('error');
             setAlertMessage('Something went wrong');
             setOpen(true);
@@ -82,6 +83,8 @@ const Form = ({ setCurrentId, currentId }) => {
 
     const handleClose = () => {
         setOpen(false);
+        if (formSuccess)
+            window.location.href = "/";
     }
 
     return (

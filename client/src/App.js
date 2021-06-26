@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, AppBar, Typography, Grow, Grid } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { getPosts } from './actions/posts'
 import Posts from './components/Posts/Posts';
@@ -20,27 +21,45 @@ const App = () => {
     }, [currentId, dispatch]);
 
     return (
-        <Container maxWidth={false} style={{padding: '0'}}>
-            <AppBar elevation={0} className={classes.appBar} position="static" color="inherit">
-                <img className={classes.image} src={icon} alt="icon" height="60" />
-                <Typography className={classes.heading} variant="h2" align="center">Tracker</Typography>
-            </AppBar>
+        <Router>
+            <Switch>
+                <Route exact path={["/"]}>
+                    <Container maxWidth={false} style={{padding: '0', height: '100%'}}>
+                        <AppBar elevation={0} className={classes.appBar} position="static" color="inherit">
+                            <img className={classes.image} src={icon} alt="icon" height="60" />
+                            <Typography className={classes.heading} variant="h2" align="center">Tracker</Typography>
+                        </AppBar>
 
-            <div id="background">
-                {/*<Form currentId={currentId} setCurrentId={setCurrentId} /> */}
-                <Grow in>
-                    <Container>
-                        <Grid container justify="space-between" alignItems="stretch" spacing={4}>
-                            <Grid item xs={12} sm={12}>
-                                <Posts setCurrentId={setCurrentId} />
-                            </Grid>
-                        </Grid>
+                        <div id="background">
+                            <Grow in>
+                                <Container>
+                                    <Grid container justify="space-between" alignItems="stretch" spacing={4}>
+                                        <Grid item xs={12} sm={12} style={{ flexGrow: '0', overflow: 'auto'}}>
+                                            <Posts setCurrentId={setCurrentId} />
+                                        </Grid>
+                                    </Grid>
+                                </Container>
+                            </Grow>
+
+                            <Add />
+                        </div>
                     </Container>
-                </Grow>
+                </Route>
 
-                <Add />
-            </div>
-        </Container>
+                <Route exact path={["/add"]}>
+                    <Container maxWidth={false} style={{padding: '0', height: '100%'}}>
+                        <AppBar elevation={0} className={classes.appBar} position="static" color="inherit">
+                            <img className={classes.image} src={icon} alt="icon" height="60" />
+                            <Typography className={classes.heading} variant="h2" align="center">Tracker</Typography>
+                        </AppBar>
+
+                        <div id="background">
+                            <Form setCurrentId={setCurrentId} currentId={currentId} />
+                        </div>
+                    </Container>
+                </Route>
+            </Switch>
+        </Router>
     )
 }
 

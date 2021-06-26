@@ -1,12 +1,14 @@
-body, #root {
-    height: 100%;
+html, body, #root, .App{
+    height: 100% !important;
     margin: 0;
 }
 
 #background {
-    height: 80%;
+    height: 84%;
+    bottom: 0px;
     left: 0px;
     right: 0px;
+    position: absolute;
 
     background: #3C3C3C;
     border-radius: 10% 10% 0px 0px;
