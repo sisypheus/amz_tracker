@@ -7,15 +7,17 @@ export default makeStyles((theme) => ({
     },
   },
   paper: {
-    padding: theme.spacing(1),
-    marginBottom: theme.spacing(5),
+      marginTop: theme.spacing(8),
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
   },
   form: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
+    width: '100%',
+    marginTop: theme.spacing(1),
+    textAlign: 'center',
   },
-  buttonSubmit: {
-    marginLeft: '33%',
+  submit: {
+    margin: theme.spacing(3, 0, 3),
   },
 }));

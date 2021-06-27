@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import useStyles from './styles';
-import { TextField, Button, Typography, Paper, Snackbar, InputAdornment } from '@material-ui/core';
+import { TextField, Button, Typography, Paper, Snackbar, Container, CssBaseline } from '@material-ui/core';
 import { Alert } from '@material-ui/lab'
 import { useDispatch, useSelector } from 'react-redux';
 import { createPost, updatePost } from '../../actions/posts';
@@ -88,33 +88,62 @@ const Form = ({ setCurrentId, currentId }) => {
     }
 
     return (
-        <Paper className={classes.paper}>
-            <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
-                <Typography variant="h6">{currentId ? 'Edit' : 'Add'} an item</Typography>
-                <TextField
-                    name="Product url" label="Product url" fullWidth
-                    value={postData.url}
-                    onChange={(e) => setPostData({ ...postData, url: e.target.value })}
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="end">
-                                <Button className={classes.buttonSubmit} style={{backgroundColor: "#4caf50"}}
-                                variant="contained" size="large" type="submit">
-                                    Add
-                                </Button>
-                            </InputAdornment>
-                        ),
-                    }}
-                />
-            
-                <Snackbar open={open} onClose={handleClose} autoHideDuration={2000} >
-                    <Alert variant="filled" severity={formSuccess}>
-                        {alertMessage}
-                    </Alert>
-                </Snackbar>
+        <>
+            {/*<Container>
+                <form autoComplete="on" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
+                    <Typography variant="h6">{currentId ? 'Edit' : 'Add'} an item</Typography>
+                    <TextField
+                        name="Product url" label="Product url"
+                        value={postData.url}
+                        onChange={(e) => setPostData({ ...postData, url: e.target.value })}
+                    />
+                    <TextField
+                        name="priceAlert"
+                        placeholder="Alert me when price drops below ..."
+                    />
+                </form>
+            </Container>
+            */}
 
-            </form>
-        </Paper>
+            <Container maxWidth="sm">
+                <CssBaseline />
+                <div className={classes.paper}>
+                    <Typography component="h1" variant="h5">
+                    Add an item to track
+                    </Typography>
+                        <form className={classes.form} noValidate>
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+                                fullWidth
+                                label="URL"
+                                autoFocus
+                            />
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+                                fullWidth
+                                label="Price target"
+                            />
+                            <Button
+                                type="submit"
+                                size="large"
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                            >
+                                Add
+                            </Button>
+                        </form>
+                </div>
+            </Container>
+
+            <Snackbar open={open} onClose={handleClose} autoHideDuration={2000} >
+                <Alert variant="filled" severity={formSuccess}>
+                    {alertMessage}
+                </Alert>
+            </Snackbar>
+        </>
     );
 }
 

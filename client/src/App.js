@@ -54,7 +54,7 @@ const App = () => {
                         </AppBar>
 
                         <div id="background">
-                            <Form setCurrentId={setCurrentId} currentId={currentId} />
+                            <Form id="addForm" setCurrentId={setCurrentId} currentId={currentId} />
                         </div>
                     </Container>
                 </Route>
