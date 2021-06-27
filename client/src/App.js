@@ -31,11 +31,11 @@ const App = () => {
                         </AppBar>
 
                         <div id="background">
-                            <Grow in style={{paddingTop: '12vh'}}>
+                            <Grow in>
                                 <Container style={{overflow: 'auto', maxHeight: '97%'}}>
-                                    <Grid container justify="space-between" alignItems="stretch" spacing={4}>
+                                    <Grid container justify="space-between" alignItems="stretch" spacing={4} style={{ padding: '30px'}}>
                                         <Grid item xs={12} sm={12}>
-                                            <Posts setCurrentId={setCurrentId} />
+                                            <Posts setCurrentId={setCurrentId}/>
                                         </Grid>
                                     </Grid>
                                 </Container>

@@ -49,12 +49,7 @@ html, body, #root, .App{
     background-color: #555;
 }
 
-.MuiContainer-root.MuiContainer-maxWidthLg::-webkit-scrollbar-track 
-{
-}
-
 .MuiContainer-root.MuiContainer-maxWidthLg::-webkit-scrollbar-button
 {
     height: 10%;
-
 }
