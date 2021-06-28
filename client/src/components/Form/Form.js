@@ -89,35 +89,20 @@ const Form = ({ setCurrentId, currentId }) => {
 
     return (
         <>
-            {/*<Container>
-                <form autoComplete="on" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
-                    <Typography variant="h6">{currentId ? 'Edit' : 'Add'} an item</Typography>
-                    <TextField
-                        name="Product url" label="Product url"
-                        value={postData.url}
-                        onChange={(e) => setPostData({ ...postData, url: e.target.value })}
-                    />
-                    <TextField
-                        name="priceAlert"
-                        placeholder="Alert me when price drops below ..."
-                    />
-                </form>
-            </Container>
-            */}
-
-            <Container maxWidth="sm">
+            <Container maxWidth="sm" className={classes.formContainer}>
                 <CssBaseline />
                 <div className={classes.paper}>
-                    <Typography component="h1" variant="h5">
-                    Add an item to track
-                    </Typography>
-                        <form className={classes.form} noValidate>
+                    <Typography component="h1" variant="h5" className={classes.formTitle}>Add an item to track</Typography>
+                        <form className={classes.form} noValidate onSubmit={handleSubmit}>
                             <TextField
                                 variant="outlined"
                                 margin="normal"
                                 fullWidth
                                 label="URL"
                                 autoFocus
+                                value={postData.url}
+                                onChange={(e) => setPostData({ ...postData, url: e.target.value })}
+
                             />
                             <TextField
                                 variant="outlined"
