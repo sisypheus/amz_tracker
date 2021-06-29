@@ -5,7 +5,8 @@ import CreateIcon from '@material-ui/icons/Create';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import useStyles from './styles';
 import { useDispatch } from 'react-redux';
-import { deletePost } from '../../../actions/posts'
+import { deletePost } from '../../../actions/posts';
+import { Link } from 'react-router-dom';
 
 const Post = ({ post, setCurrentId }) => {
     const classes = useStyles();
@@ -50,15 +51,22 @@ const Post = ({ post, setCurrentId }) => {
                 <CardActions className={classes.cardActions}>
                     <Button size="small" color="secondary" onClick={() => dispatch(deletePost(post._id))} >
                         <DeleteIcon fontSize="small" />
-                    Delete
+                        Delete
                     </Button>
                 </CardActions>
 
                 <CardActions className={classes.cardActions}>
-                    <Button size="small" color="primary" onClick={() => { setCurrentId(post._id); handleClose() }}>
-                        <CreateIcon fontSize="small" />
-                    Edit
-                    </Button>
+                    <Typography>
+                        <Link to={{
+                            pathname: "/add",
+                            state: {
+                                currentId: post._id,
+                            },
+                        }} style={{color: 'blue', padding: '5px 4px', textDecoration: 'none', display: 'inline-flex', letterSpacing: '0.02857em', fontSize: '0.8125em'}}>
+                            <CreateIcon fontSize="small" />
+                            EDIT
+                        </Link>
+                    </Typography>
                 </CardActions>
             </Popover>
 
