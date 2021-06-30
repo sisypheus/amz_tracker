@@ -7,13 +7,11 @@ import { getPosts } from './actions/posts'
 import Posts from './components/Posts/Posts';
 import Form from './components/Form/Form';
 import Add from './components/Add/Add';
-import icon from './images/icon.svg';
-import Styles from './styles';
+import Navbar from './components/Navbar/Navbar';
 import './style/index.css';
 
 const App = () => {
     const [currentId, setCurrentId] = useState(null);
-    const classes = Styles();
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -25,10 +23,7 @@ const App = () => {
             <Switch>
                 <Route exact path={["/"]}>
                     <Container maxWidth={false} style={{padding: '0', height: '100%'}}>
-                        <AppBar elevation={0} className={classes.appBar} position="static" color="inherit">
-                            <img className={classes.image} src={icon} alt="icon" height="60" />
-                            <Typography className={classes.heading} variant="h2" align="center">Tracker</Typography>
-                        </AppBar>
+                        <Navbar />
 
                         <div id="background">
                             <Grow in>
@@ -48,13 +43,20 @@ const App = () => {
 
                 <Route exact path={["/add"]}>
                     <Container maxWidth={false} style={{padding: '0', height: '100%'}}>
-                        <AppBar elevation={0} className={classes.appBar} position="static" color="inherit">
-                            <img className={classes.image} src={icon} alt="icon" height="60" />
-                            <Typography className={classes.heading} variant="h2" align="center">Tracker</Typography>
-                        </AppBar>
+                        <Navbar />
 
                         <div id="background">
                             <Form id="addForm" setCurrentId={setCurrentId} currentId={currentId} />
+                        </div>
+                    </Container>
+                </Route>
+
+                <Route exact path={["/auth"]}>
+                    <Container maxWidth={false} style={{padding: '0', height: '100%'}}>
+                        <Navbar />
+
+                        <div id="background">
+                            <p>AUTH</p>
                         </div>
                     </Container>
                 </Route>
