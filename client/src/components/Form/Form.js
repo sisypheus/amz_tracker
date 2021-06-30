@@ -50,10 +50,9 @@ const Form = ({ setCurrentId, currentId }) => {
         if (data.length !== 3)
             makeFeedback('Something went wrong', false);
         else {
-            console.log(data[2].message);
             data[1].message = data[1].message.replace(/\n/g, '');
-            makeFeedback(currentId ? 'Item successfully edited' : 'Item successfully added', true);
             setPostData({ ...postData, image: data[0].message, title: data[1].message, price: data[2].message });
+            makeFeedback(currentId ? 'Item successfully edited' : 'Item successfully added', true);
             clearForm();
         }
     }
@@ -71,10 +70,11 @@ const Form = ({ setCurrentId, currentId }) => {
     useEffect(() => {
         if (postData.image && postData.title && !currentId)
             dispatch(createPost(postData));
-        else if (postData.image && postData.title && currentId)
+        else if (postData.image && postData.title && currentId) {
             dispatch(updatePost(currentId, postData));
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [postData.image, postData.title])
+    }, [postData.image, postData.title, postData.targetPrice])
 
     const verifyLink = (link) => {
         if (link.substring(0, 11) === 'www.amazon.') {

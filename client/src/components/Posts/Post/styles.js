@@ -52,6 +52,5 @@ export default makeStyles({
       },
       align: {
         verticalAlign: 'middle',
-        display: 'inline-flex',
       },
 });

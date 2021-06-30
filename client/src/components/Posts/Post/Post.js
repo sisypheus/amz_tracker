@@ -1,29 +1,39 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Card, CardActions, CardContent, CardMedia, Button, Typography, Popover, Box } from '@material-ui/core';
+import { CircularProgress, Card, CardActions, CardContent, CardMedia, Button, Typography, Popover, Box } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
+import TrackChangesIcon from '@material-ui/icons/TrackChanges';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import useStyles from './styles';
 import { useDispatch } from 'react-redux';
 import { deletePost } from '../../../actions/posts';
 import { Link } from 'react-router-dom';
+import { getPrice } from '../../../actions/image'
 
 const Post = ({ post, setCurrentId }) => {
     const classes = useStyles();
     const defaultImage = 'https://axiscoffeeshop.com/wp-content/uploads/2015/11/placeholder.jpg';
     const dispatch = useDispatch();
     const divRef = useRef();
+    const [updatedPrice, setUpdatedPrice] = useState();
     const [anchorEl, setAnchorEl] = useState(null);
-
-    const handleActions = () => {
-
-    }
-
+    
+    
+    const getUpdatePrice = async () => {
+        const result = await getItemPrice(post.url);
+        setUpdatedPrice(result?.message);
+    };
+    
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const getItemPrice = (link) => { return dispatch(getPrice(link)); };
+
+    useEffect(() => {
+        getUpdatePrice();
+    }, []);
 
     const open = Boolean(anchorEl);
     const id = open ? "simple-popover" : undefined;
@@ -82,14 +92,24 @@ const Post = ({ post, setCurrentId }) => {
             </CardContent>
 
             <CardContent className={classes.prices}>
-                <Typography className={classes.align}>
-                    <HighlightOffIcon/>
-                    {post.targetPrice} €
-                </Typography>
+                {updatedPrice ?
+                    post.targetPrice <= post.price ?
+                        <Typography variant="h4" align="justify" style={{color: 'red', fontWeight: '500'}}>
+                            <HighlightOffIcon/>
+                            {post.price} €
+                        </Typography>
+                        :
+                        <Typography variant="h4" align="justify" style={{color: 'green', fontWeight: '500'}}>
+                            <DoneOutlineIcon/>
+                            {post.price} €
+                        </Typography>
+                    :
+                    <CircularProgress/>
+                }
 
-                <Typography className={classes.align}>
-                    <DoneOutlineIcon/>
-                    {post.price} €
+                <Typography variant="h4" align="justify" style={{color: '#007EB9'}} className={classes.align}>
+                    <TrackChangesIcon/>
+                    {post.targetPrice} €
                 </Typography>
             </CardContent>
         </Card>
