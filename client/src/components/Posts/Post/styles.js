@@ -45,9 +45,13 @@ export default makeStyles({
       title: {
         padding: '0 16px',
       },
-      cardActions: {
+      prices: {
         padding: '0 16px 8px 16px',
         display: 'flex',
         justifyContent: 'space-between',
+      },
+      align: {
+        verticalAlign: 'middle',
+        display: 'inline-flex',
       },
 });

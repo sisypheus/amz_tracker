@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import useStyles from './styles';
-import { TextField, Button, Typography, Paper, Snackbar, Container, CssBaseline } from '@material-ui/core';
+import { TextField, Button, Typography, Snackbar, Container, CssBaseline, InputAdornment } from '@material-ui/core';
 import { Alert } from '@material-ui/lab'
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPost, updatePost } from '../../actions/posts';
-import { getImageUrl, getTitle } from '../../actions/image'
+import { getImageUrl, getTitle, getPrice } from '../../actions/image'
 import { useLocation } from 'react-router-dom';
 
 const Form = ({ setCurrentId, currentId }) => {
@@ -12,7 +14,7 @@ const Form = ({ setCurrentId, currentId }) => {
     const [alertMessage, setAlertMessage] = useState('Something went wrong');
     const classes = useStyles();
     const dispatch = useDispatch();
-    const [postData, setPostData] = useState({ url: '', title: '', image: '' });
+    const [postData, setPostData] = useState({ url: '', title: '', image: '', targetPrice: 0, price: -1 });
     const [open, setOpen] = useState(false);
     const location = useLocation();
     currentId = location.state?.currentId;
@@ -21,38 +23,43 @@ const Form = ({ setCurrentId, currentId }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         postData.url = encodeURI(postData.url);
-        if (!verifyLink(postData.url)) {
-            setFormSuccess('error');
-            setAlertMessage('Something went wrong');
-            setOpen(true);
+        if (postData.targetPrice <= 0) {
+            makeFeedback('You can\'t set a negative price', false);
+            return;
+        }   
+        else if (!verifyLink(postData.url)) {
+            makeFeedback('Something went wrong', false);
             return;
         }
         fetchItem();
     }
 
+    const makeFeedback = (message, success) => {
+        success ? setFormSuccess('success') : setFormSuccess('error');
+        setAlertMessage(message);
+        setOpen(true);
+    }
+
     const fetchItem = async () => {
         const result = await Promise.all([
             getSrc(postData.url),
-            getItemTitle(postData.url)
+            getItemTitle(postData.url),
+            getItemPrice(postData.url)
         ]);
         const data = result.filter(result => !(result instanceof Error));
-        if (data.length !== 2) {
-            console.log('ici');
-            setFormSuccess('error');
-            setAlertMessage('Something went wrong');
-            setOpen(true);
-        } else {
+        if (data.length !== 3)
+            makeFeedback('Something went wrong', false);
+        else {
+            console.log(data[2].message);
             data[1].message = data[1].message.replace(/\n/g, '');
-            setFormSuccess('success');
-            currentId ? setAlertMessage('Item successfully edited') : setAlertMessage('Item successfully added');
-            setOpen(true);
-            setPostData({ ...postData, image: data[0].message, title: data[1].message });
+            makeFeedback(currentId ? 'Item successfully edited' : 'Item successfully added', true);
+            setPostData({ ...postData, image: data[0].message, title: data[1].message, price: data[2].message });
             clearForm();
         }
     }
 
     const clearForm = () => {
-        setPostData({ url: '', image: '', title: '' });
+        setPostData({ url: '', image: '', title: '', targetPrice: 0, price: -1});
         setCurrentId(null);
     };
 
@@ -84,9 +91,11 @@ const Form = ({ setCurrentId, currentId }) => {
 
     const getItemTitle = (link) => { return dispatch(getTitle(link)); }
 
+    const getItemPrice = (link) => { return dispatch(getPrice(link)); }
+
     const handleClose = () => {
         setOpen(false);
-        if (formSuccess)
+        if (formSuccess == 'success')
             window.location.href = "/";
     }
 
@@ -102,7 +111,6 @@ const Form = ({ setCurrentId, currentId }) => {
                             margin="normal"
                             fullWidth
                             label="URL"
-                            autoFocus
                             value={postData.url}
                             onChange={(e) => setPostData({ ...postData, url: e.target.value })}
 
@@ -112,6 +120,37 @@ const Form = ({ setCurrentId, currentId }) => {
                             margin="normal"
                             fullWidth
                             label="Price target"
+                            type="number"
+                            value={postData.targetPrice}
+                            onChange={(e) => setPostData({...postData, targetPrice: e.target.value})}
+                            InputProps={{
+                                endAdornment: (
+                                    <>
+                                        <InputAdornment position="start">
+                                            <AddCircleIcon style={{cursor: "pointer"}} fontSize="small"
+                                            onClick={() =>
+                                                {
+                                                    if (postData.targetPrice === '')
+                                                        setPostData({...postData, targetPrice: 1})
+                                                    else
+                                                        setPostData({...postData, targetPrice: postData.targetPrice + 1})
+                                                }
+                                            }/>
+                                        </InputAdornment>
+                                        <InputAdornment position="start">
+                                            <IndeterminateCheckBoxIcon style={{cursor: "pointer"}} fontSize="small"
+                                            onClick={() =>
+                                                {
+                                                    if (postData.targetPrice === '')
+                                                        setPostData({...postData, targetPrice: -1})
+                                                    else
+                                                        setPostData({...postData, targetPrice: postData.targetPrice - 1})
+                                                }
+                                            }/>
+                                        </InputAdornment>
+                                    </>
+                                )
+                            }}
                         />
                         <Button
                             type="submit"
@@ -126,7 +165,7 @@ const Form = ({ setCurrentId, currentId }) => {
                 </div>
             </Container>
 
-            <Snackbar open={open} onClose={handleClose} autoHideDuration={2000} >
+            <Snackbar open={open} onClose={handleClose} autoHideDuration={1500} >
                 <Alert variant="filled" severity={formSuccess}>
                     {alertMessage}
                 </Alert>

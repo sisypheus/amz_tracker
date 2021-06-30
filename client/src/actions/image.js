@@ -3,11 +3,9 @@ import * as api from '../api';
 export const getImageUrl = (link) => async (dispatch) => {
     try {
         const { data } = await api.getImageUrl(link);
-        //dispatch({ SUCCESS,})
         return data;
     } catch (err) {
         console.log(err.message);
-        //dispatch({ ERROR,})
         return err;
     }
 }
@@ -18,6 +16,16 @@ export const getTitle = (link) => async (dispatch) => {
         return data;
     } catch (err) {
         console.log(err.message);
+        return err;
+    }
+}
+
+export const getPrice = (link) => async (dispatch) => {
+    try {
+        const { data } = await api.getPrice(link);
+        return data;
+    } catch (err) {
+        console.log(err);
         return err;
     }
 }

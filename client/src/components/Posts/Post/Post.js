@@ -1,7 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Card, CardActions, CardContent, CardMedia, Button, Typography, Popover } from '@material-ui/core';
+import { Card, CardActions, CardContent, CardMedia, Button, Typography, Popover, Box } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import useStyles from './styles';
 import { useDispatch } from 'react-redux';
@@ -77,6 +79,18 @@ const Post = ({ post, setCurrentId }) => {
                     gutterBottom>
                         {post.title ? (post.title.length < 79 ? post.title : post.title.substring(0, 80) + '...') : 'Unknown product'}
                     </Typography>
+            </CardContent>
+
+            <CardContent className={classes.prices}>
+                <Typography className={classes.align}>
+                    <HighlightOffIcon/>
+                    {post.targetPrice} €
+                </Typography>
+
+                <Typography className={classes.align}>
+                    <DoneOutlineIcon/>
+                    {post.price} €
+                </Typography>
             </CardContent>
         </Card>
     );
