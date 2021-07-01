@@ -9,7 +9,7 @@ import { createPost, updatePost } from '../../actions/posts';
 import { getImageUrl, getTitle, getPrice } from '../../actions/image'
 import { useLocation } from 'react-router-dom';
 
-const Form = ({ setCurrentId, currentId }) => {
+const Form = () => {
     const [formSuccess, setFormSuccess] = useState('error');
     const [alertMessage, setAlertMessage] = useState('Something went wrong');
     const classes = useStyles();
@@ -17,8 +17,8 @@ const Form = ({ setCurrentId, currentId }) => {
     const [postData, setPostData] = useState({ url: '', title: '', image: '', targetPrice: 0, price: -1 });
     const [open, setOpen] = useState(false);
     const location = useLocation();
-    currentId = location.state?.currentId;
-    const post = useSelector((state) => (currentId ? state.posts.find((p) => p._id === currentId) : null));
+    const postId = location.state?.currentId;
+    const post = useSelector((state) => (postId ? state.posts.find((p) => p._id === postId) : null));
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -52,14 +52,13 @@ const Form = ({ setCurrentId, currentId }) => {
         else {
             data[1].message = data[1].message.replace(/\n/g, '');
             setPostData({ ...postData, image: data[0].message, title: data[1].message, price: data[2].message });
-            makeFeedback(currentId ? 'Item successfully edited' : 'Item successfully added', true);
+            makeFeedback(postId ? 'Item successfully edited' : 'Item successfully added', true);
             clearForm();
         }
     }
 
     const clearForm = () => {
         setPostData({ url: '', image: '', title: '', targetPrice: 0, price: -1});
-        setCurrentId(null);
     };
 
     useEffect(() => {
@@ -68,10 +67,10 @@ const Form = ({ setCurrentId, currentId }) => {
     }, [post])
 
     useEffect(() => {
-        if (postData.image && postData.title && !currentId)
+        if (postData.image && postData.title && !postId)
             dispatch(createPost(postData));
-        else if (postData.image && postData.title && currentId) {
-            dispatch(updatePost(currentId, postData));
+        else if (postData.image && postData.title && postId) {
+            dispatch(updatePost(postId, postData));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [postData.image, postData.title, postData.targetPrice])
