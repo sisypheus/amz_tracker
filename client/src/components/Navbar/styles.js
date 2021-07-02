@@ -32,4 +32,7 @@ export default makeStyles(() => ({
         position: 'absolute',
         right: 0,
     },
+    purple: {
+        marginRight: '20px',
+    }
 }));
