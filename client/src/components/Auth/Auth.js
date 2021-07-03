@@ -34,7 +34,6 @@ const Auth = () => {
   };
 
   const handleShowPassword = () => {
-    console.log('ici');
     setShowPassword((prev) => !prev)
   };
 
