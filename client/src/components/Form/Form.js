@@ -94,8 +94,8 @@ const Form = () => {
 
     const handleClose = () => {
         setOpen(false);
-        if (formSuccess == 'success')
-            window.location.href = "/";
+        //if (formSuccess == 'success')
+            //window.location.href = "/";
     }
 
     return (

@@ -9,7 +9,7 @@ API.interceptors.request.use((req) => {
 });
 
 export const fetchPosts = () => API.get('/posts');
-export const createPost = (newPost) => API.post('/posts', newPost);
+export const createPost = (newPost, user) => API.post('/posts', { post: newPost, user: user });
 export const getImageUrl = (link) => API.get('/image', { params: {link}});
 export const getTitle = (link) => API.get('/title', { params: {link}});
 export const getPrice = (link) => API.get('/price', { params: {link}});

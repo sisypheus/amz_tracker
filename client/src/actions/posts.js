@@ -11,7 +11,8 @@ export const getPosts = () => async (dispatch) => {
 
 export const createPost = (post) => async (dispatch) => {
     try {
-        const { data } = await api.createPost(post);
+        const user = JSON.parse(localStorage.getItem('profile')).result.email;
+        const { data } = await api.createPost(post, user);
         dispatch({ type: 'CREATE', payload: data });
     } catch (err) {
         console.log(err.message);

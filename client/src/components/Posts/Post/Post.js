@@ -20,7 +20,6 @@ const Post = ({ post, setCurrentId }) => {
     const [updatedPrice, setUpdatedPrice] = useState();
     const [anchorEl, setAnchorEl] = useState(null);
     
-    
     const getUpdatePrice = async () => {
         const result = await getItemPrice(post.url);
         setUpdatedPrice(result?.message);

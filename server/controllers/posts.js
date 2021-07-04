@@ -1,4 +1,5 @@
 import PostMessage from '../models/postMessage.js';
+import User from '../models/user.js';
 import mongoose from 'mongoose';
 
 export const getPosts = async (req, res) => {
@@ -12,13 +13,13 @@ export const getPosts = async (req, res) => {
 }
 
 export const createPost = async (req, res) => {
-    const post = req.body;
-
+    const { post, user } = req.body;
     const newPost = new PostMessage(post);
 
     try {
-        await newPost.save();
-        res.status(201).json(newPost);
+        let existingUser = await User.findOne({ email: user});
+        existingUser.items.push(newPost);
+        existingUser.save();
     } catch (err) {
         res.status(409).json({ message: err.message });
     }
