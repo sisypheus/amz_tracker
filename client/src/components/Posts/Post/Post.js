@@ -33,6 +33,9 @@ const Post = ({ post, setCurrentId }) => {
 
     useEffect(() => {
         getUpdatePrice();
+        return () => {
+            setUpdatedPrice({});
+        }
     }, []);
 
     const open = Boolean(anchorEl);

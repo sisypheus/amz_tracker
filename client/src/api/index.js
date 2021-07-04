@@ -16,5 +16,7 @@ export const getPrice = (link) => API.get('/price', { params: {link}});
 export const updatePost = (id, postData) => API.patch(`/posts/${id}`, postData);
 export const deletePost = (id) => API.delete(`/posts/${id}`);
 
+//auth
 export const signin = (formData) => API.post('/user/signin', formData);
 export const signup = (formData) => API.post('/user/signup', formData);
+export const googleSignup = (result) => API.post('/user/googlesignup', result);

@@ -19,3 +19,12 @@ export const signup = (formData, history) => async (dispatch) => {
     console.log(err);
   }
 }
+
+export const googleSignup = (result) => async (dispatch) => {
+  try {
+    const { data } = await api.googleSignup(result);
+    //console.log(data);
+  } catch (err) {
+    console.log(err);
+  }
+}

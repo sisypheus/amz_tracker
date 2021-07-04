@@ -27,7 +27,7 @@ export const signup = async (req, res) => {
   try {
     const existingUser = await User.findOne({ email: email });
     if (existingUser)
-    return res.status(400).json({message: 'User already exists'});
+      return res.status(400).json({message: 'User already exists'});
   
     if (password !== confirmPassword)
       return res.status(400).json({message: 'Passwords don\'t match'});
@@ -36,8 +36,19 @@ export const signup = async (req, res) => {
 
     const token = jwt.sign({ email: result.email, id: result._id }, 'test', { expiresIn: "1h"});
     res.status(200).json({ result: result, token });
-
   } catch (err) {
     res.status(500).json({message: 'Something went wrong'});
+  }
+}
+
+export const googlesignup = async (req, res) => {
+  try {
+    const { email, name } = req.body;
+    const existingUser = await User.findOne({ email: email });
+    if (existingUser)
+      return;
+    const result = await User.create({ email: email, password: 'googleAccount', name: name, items: []});
+  } catch (err) {
+    console.log(err);
   }
 }
