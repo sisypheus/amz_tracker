@@ -8,13 +8,13 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-export const fetchPosts = () => API.get('/posts');
+export const fetchPosts = (user) => API.get('/posts', {params: {user}});
 export const createPost = (newPost, user) => API.post('/posts', { post: newPost, user: user });
 export const getImageUrl = (link) => API.get('/image', { params: {link}});
 export const getTitle = (link) => API.get('/title', { params: {link}});
 export const getPrice = (link) => API.get('/price', { params: {link}});
-export const updatePost = (id, postData) => API.patch(`/posts/${id}`, postData);
-export const deletePost = (id) => API.delete(`/posts/${id}`);
+export const updatePost = (id, postData, user) => API.patch(`/posts/${id}`, {post: postData, user: user});
+export const deletePost = (id, user) => API.delete(`/posts/${id}`, {params: {user}});;
 
 //auth
 export const signin = (formData) => API.post('/user/signin', formData);

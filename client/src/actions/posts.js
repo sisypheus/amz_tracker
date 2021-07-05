@@ -2,7 +2,8 @@ import * as api from '../api';
 
 export const getPosts = () => async (dispatch) => {
     try {
-        const { data } = await api.fetchPosts();
+        const user = JSON.parse(localStorage.getItem('profile')).result.email;
+        const { data } = await api.fetchPosts(user);
         dispatch({ type: 'FETCH_ALL', payload: data });
     } catch (err) {
         console.log(err.message);
@@ -21,7 +22,8 @@ export const createPost = (post) => async (dispatch) => {
 
 export const updatePost = (id, post) => async (dispatch) => {
     try {
-        const { data } = await api.updatePost(id, post);
+        const user = JSON.parse(localStorage.getItem('profile')).result.email;
+        const { data } = await api.updatePost(id, post, user);
         dispatch({ type: 'UPDATE', payload: data });
     } catch (err) {
         console.log(err);
@@ -30,7 +32,8 @@ export const updatePost = (id, post) => async (dispatch) => {
 
 export const deletePost = (id, post) => async (dispatch) => {
     try {
-        await api.deletePost(id);
+        const user = JSON.parse(localStorage.getItem('profile')).result.email;
+        await api.deletePost(id, user);
         dispatch({ type: 'DELETE', payload: id});
     } catch (err) {
         console.log(err);

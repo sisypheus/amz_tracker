@@ -32,6 +32,9 @@ const Form = () => {
             return;
         }
         fetchItem();
+        if (postId) {
+            dispatch(updatePost(postId, postData));
+        }
     }
 
     const makeFeedback = (message, success) => {
@@ -67,13 +70,9 @@ const Form = () => {
     }, [post])
 
     useEffect(() => {
-        if (postData.image && postData.title && !postId)
-            dispatch(createPost(postData));
-        else if (postData.image && postData.title && postId) {
-            dispatch(updatePost(postId, postData));
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [postData.image, postData.title, postData.targetPrice])
+        if (postData.image && postData.url && postData.title && !postId)
+            dispatch(createPost(postData))
+    }, [postData.image, postData.url, postData.title])
 
     const verifyLink = (link) => {
         if (link.substring(0, 11) === 'www.amazon.') {
@@ -94,8 +93,8 @@ const Form = () => {
 
     const handleClose = () => {
         setOpen(false);
-        //if (formSuccess == 'success')
-            //window.location.href = "/";
+        if (formSuccess == 'success')
+            window.location.href = "/";
     }
 
     return (

@@ -47,8 +47,8 @@ const Auth = () => {
 
     try {
       //sign up user if doesn't exists
-      dispatch({type: 'AUTH', data: {result, token}});
       dispatch(googleSignup(result));
+      dispatch({type: 'AUTH', data: {result, token}});
       history.push('/');
     } catch (err) {
       console.error(err);
