@@ -48,6 +48,7 @@ export const googlesignup = async (req, res) => {
     if (existingUser)
       return;
     const result = await User.create({ email: email, password: 'googleAccount', name: name, items: []});
+    res.status(200).json({ result });
   } catch (err) {
     console.log(err);
   }

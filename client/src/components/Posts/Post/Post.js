@@ -72,7 +72,7 @@ const Post = ({ post, setCurrentId }) => {
                 <CardActions className={classes.cardActions}>
                     <Typography>
                         <Link to={{
-                            pathname: "/add",
+                            pathname: "/alter",
                             state: {
                                 currentId: post._id,
                             },

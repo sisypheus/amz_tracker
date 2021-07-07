@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect} from 'react'
 import { Avatar, Button, Paper, Grid, Typography, Container, TextField } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import useStyles from './styles';
 import Input from './Input';
 import { GoogleLogin } from 'react-google-login';
 import Icon from './Icon';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { signup, signin, googleSignup } from '../../actions/auth';
 
@@ -13,11 +13,14 @@ const initialState = { firstName: '', lastName: '', email: '', password: '', con
 
 const Auth = () => {
   const classes = useStyles();
-  const [Signup, setSignup] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState(initialState);
   const dispatch = useDispatch();
   const history = useHistory();
+  const registerLoading = useSelector((state) => state.registerLoading);
+  const [token, setToken] = useState();
+  const [result, setResult] = useState();
+  const [Signup, setSignup] = useState(false);
+  const [formData, setFormData] = useState(initialState);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit  = (e) => {
     e.preventDefault();
@@ -41,19 +44,31 @@ const Auth = () => {
     setSignup((prev) => !prev);
   };
 
-  const googleSuccess = async (res) => {
-    const result = res?.profileObj;
-    const token = res?.tokenId;
+  const googleSuccess = (res) => {
+    setResult(res?.profileObj);
+    setToken(res?.tokenId);
+  };
 
-    try {
-      //sign up user if doesn't exists
-      dispatch(googleSignup(result));
+  useEffect(() => {
+    if (registerLoading == 2) {
       dispatch({type: 'AUTH', data: {result, token}});
       history.push('/');
-    } catch (err) {
-      console.error(err);
+    } else if (registerLoading == -1) {
+      console.log('error');
     }
-  };
+  }, [registerLoading])
+
+  useEffect( async () => {
+    if (result && token) {
+      //sign up user if doesn't exist
+      try {
+        dispatch(googleSignup(result));
+        dispatch({type: 'REGISTER_PENDING'})
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }, [result, token])
 
   const googleFailure = () => {
     console.log('error');

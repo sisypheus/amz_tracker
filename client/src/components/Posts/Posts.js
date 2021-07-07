@@ -10,10 +10,6 @@ const Posts = ({ setCurrentId }) => {
     const loading = useSelector((state) => state.loading);
     const classes = useStyles();
 
-    const showIndicator = () => {
-        return <CircularProgress/>
-    };
-
     const handleShow = () => {
         if (loading == 2 && !posts.length) {
             return <Typography variant="h4" style={{margin: 'auto', width: '50%', textAlign: 'center', color: 'white'}}>No Item yet, click on the bottom button to add items.</Typography>
@@ -37,7 +33,7 @@ const Posts = ({ setCurrentId }) => {
 
     return (
         <>
-            {loading == 1 || loading == 0 ? showIndicator() : handleShow()}
+            {loading == 1 || loading == 0 ? <CircularProgress/> : handleShow()}
         </>
     );
 }

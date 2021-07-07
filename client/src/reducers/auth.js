@@ -13,4 +13,19 @@ const authReducer = (state = {authData: initialState}, action) => {
   }
 };
 
-export default authReducer;
+const registerReducer = (state = 0, action) => {
+  switch (action.type) {
+    case 'REGISTER_PENDING':
+      state = 1;
+      return state;
+    case 'REGISTER_SUCCEEDED':
+      state = 2;
+      return state;
+    case 'REGISTER_FAILED':
+      state = -1;
+    default:
+      return state;
+  }
+}
+
+export { authReducer as auth, registerReducer as authLoading };

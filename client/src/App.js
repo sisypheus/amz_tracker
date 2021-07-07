@@ -15,7 +15,7 @@ const App = () => {
                     <Base component={PostsPage} />
                 </Route>
 
-                <Route exact path={["/add"]}>
+                <Route exact path={["/alter"]}>
                     <Base component={Form} />
                 </Route>
 

@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import useStyles from './styles';
-import { TextField, Button, Typography, Snackbar, Container, CssBaseline, InputAdornment } from '@material-ui/core';
+import { TextField, Button, Typography, Snackbar, Container, CssBaseline, InputAdornment, CircularProgress } from '@material-ui/core';
 import { Alert } from '@material-ui/lab'
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPost, updatePost } from '../../actions/posts';
 import { getImageUrl, getTitle, getPrice } from '../../actions/image'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 
 const Form = () => {
+    const classes = useStyles();
+    const history = useHistory();
+    const dispatch = useDispatch();
+    const location = useLocation();
+    const formState = useSelector((state) => state.formState);
+    const [open, setOpen] = useState(false);
     const [formSuccess, setFormSuccess] = useState('error');
     const [alertMessage, setAlertMessage] = useState('Something went wrong');
-    const classes = useStyles();
-    const dispatch = useDispatch();
     const [postData, setPostData] = useState({ url: '', title: '', image: '', targetPrice: 0, price: -1 });
-    const [open, setOpen] = useState(false);
-    const location = useLocation();
     const postId = location.state?.currentId;
     const post = useSelector((state) => (postId ? state.posts.find((p) => p._id === postId) : null));
 
@@ -32,9 +34,6 @@ const Form = () => {
             return;
         }
         fetchItem();
-        if (postId) {
-            dispatch(updatePost(postId, postData));
-        }
     }
 
     const makeFeedback = (message, success) => {
@@ -44,6 +43,7 @@ const Form = () => {
     }
 
     const fetchItem = async () => {
+        dispatch({type: 'FORM_PENDING'});
         const result = await Promise.all([
             getSrc(postData.url),
             getItemTitle(postData.url),
@@ -56,7 +56,8 @@ const Form = () => {
             data[1].message = data[1].message.replace(/\n/g, '');
             setPostData({ ...postData, image: data[0].message, title: data[1].message, price: data[2].message });
             makeFeedback(postId ? 'Item successfully edited' : 'Item successfully added', true);
-            clearForm();
+            dispatch({ type: 'FORM_SUCCEEDED' });
+            //clearForm();
         }
     }
 
@@ -66,13 +67,19 @@ const Form = () => {
 
     useEffect(() => {
         if (post)
-            setPostData(post);
+            setPostData({...postData, _id: post._id, url: post.url, targetPrice: post.targetPrice});
     }, [post])
 
     useEffect(() => {
         if (postData.image && postData.url && postData.title && !postId)
             dispatch(createPost(postData))
+        else if (postData.image && postData.url && postData.title && postId)
+            dispatch(updatePost(postId, postData));
     }, [postData.image, postData.url, postData.title])
+
+    useEffect(() => {
+        //dispatch post here with form state
+    }, [formState]);
 
     const verifyLink = (link) => {
         if (link.substring(0, 11) === 'www.amazon.') {
@@ -94,8 +101,14 @@ const Form = () => {
     const handleClose = () => {
         setOpen(false);
         if (formSuccess == 'success')
-            window.location.href = "/";
+            history.push('/');
     }
+
+    const formLoading = () => {
+        return (
+            <></>
+        );
+    };
 
     return (
         <>
@@ -103,14 +116,18 @@ const Form = () => {
                 <CssBaseline />
                 <div className={classes.paper}>
                     <Typography component="h1" variant="h5" className={classes.formTitle}>{postId ? 'Edit an item' : 'Add an item to track'}</Typography>
-                    <form className={classes.form} noValidate onSubmit={handleSubmit}>
+                    {formState === 1 ? 
+                    <CircularProgress/> :
+                    (<form className={classes.form} noValidate onSubmit={handleSubmit}>
                         <TextField
                             variant="outlined"
                             margin="normal"
                             fullWidth
                             label="URL"
                             value={postData.url}
-                            onChange={(e) => setPostData({ ...postData, url: e.target.value })}
+                            onChange={(e) => {
+                                return setPostData({ ...postData, url: e.target.value })
+                            }}
 
                         />
                         <TextField
@@ -159,7 +176,7 @@ const Form = () => {
                         >
                             Add
                         </Button>
-                    </form>
+                    </form>)}
                 </div>
             </Container>
 

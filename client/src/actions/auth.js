@@ -23,8 +23,10 @@ export const signup = (formData, history) => async (dispatch) => {
 export const googleSignup = (result) => async (dispatch) => {
   try {
     const { data } = await api.googleSignup(result);
+    dispatch({type: 'REGISTER_SUCCEEDED'});
     //console.log(data);
   } catch (err) {
     console.log(err);
+    dispatch({type: 'REGISTER_FAILED'});
   }
 }
