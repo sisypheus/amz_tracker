@@ -13,12 +13,14 @@ const auth = async (req, res, next) => {
       req.userId = decodeData?.id;
     } else {
       decodeData = jwt.decode(token);
+      console.log(decodeData);
       req.userId = decodeData?.sub;
     }
 
     next();
   } catch (err) {
     console.log(err);
+    res.status(403).json({ message: 'Access forbidden' });
   }
 }
 
