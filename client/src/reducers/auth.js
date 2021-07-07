@@ -1,4 +1,6 @@
-const authReducer = (state = {authData: null}, action) => {
+const initialState = JSON.parse(localStorage.getItem('profile'));
+
+const authReducer = (state = {authData: initialState}, action) => {
   switch (action.type) {
     case 'AUTH':
       localStorage.setItem('profile', JSON.stringify({ ...action?.data }));

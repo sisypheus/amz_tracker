@@ -1,12 +1,15 @@
 import * as api from '../api';
 
 export const getPosts = () => async (dispatch) => {
+    dispatch({type: 'PENDING'});
     try {
-        const user = JSON.parse(localStorage.getItem('profile')).result.email;
+        const user = JSON.parse(localStorage.getItem('profile'))?.result?.email;
         const { data } = await api.fetchPosts(user);
+        dispatch({type: 'SUCCEEDED'});
         dispatch({ type: 'FETCH_ALL', payload: data });
     } catch (err) {
-        console.log(err.message);
+        dispatch({ type: 'FAILED'});
+        console.log(err);
     }
 }
 

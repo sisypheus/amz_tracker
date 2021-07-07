@@ -102,7 +102,7 @@ const Form = () => {
             <Container maxWidth="sm" className={classes.formContainer}>
                 <CssBaseline />
                 <div className={classes.paper}>
-                    <Typography component="h1" variant="h5" className={classes.formTitle}>Add an item to track</Typography>
+                    <Typography component="h1" variant="h5" className={classes.formTitle}>{postId ? 'Edit an item' : 'Add an item to track'}</Typography>
                     <form className={classes.form} noValidate onSubmit={handleSubmit}>
                         <TextField
                             variant="outlined"
