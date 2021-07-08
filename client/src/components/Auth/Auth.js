@@ -74,8 +74,8 @@ const Auth = () => {
     register();
   }, [result, token])
 
-  const googleFailure = () => {
-    console.log('error');
+  const googleFailure = (error) => {
+    console.log(error);
   };
 
   return (
@@ -117,7 +117,6 @@ const Auth = () => {
               )}
               onSuccess={googleSuccess}
               onFailure={googleFailure}
-              cookiePolicy="single_host_origin"
             />
             <Grid container justify="flex-end">
                 <Grid item>
