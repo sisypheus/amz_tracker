@@ -15,6 +15,8 @@ const Form = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const formState = useSelector((state) => state.formState);
+    const [showLoading, setShowLoading] = useState(0);
+    const [formOpacity, setFormOpacity] = useState(1);
     const [open, setOpen] = useState(false);
     const [formSuccess, setFormSuccess] = useState('error');
     const [alertMessage, setAlertMessage] = useState('Something went wrong');
@@ -24,13 +26,19 @@ const Form = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setFormOpacity(0.5);
+        setShowLoading(1);
         postData.url = encodeURI(postData.url);
         if (postData.targetPrice <= 0) {
             makeFeedback('You can\'t set a negative price', false);
+            setFormOpacity(1);
+            setShowLoading(0);
             return;
         }   
         else if (!verifyLink(postData.url)) {
             makeFeedback('Something went wrong', false);
+            setFormOpacity(1);
+            setShowLoading(0);
             return;
         }
         fetchItem();
@@ -57,7 +65,9 @@ const Form = () => {
             setPostData({ ...postData, image: data[0].message, title: data[1].message, price: data[2].message });
             makeFeedback(postId ? 'Item successfully edited' : 'Item successfully added', true);
             dispatch({ type: 'FORM_SUCCEEDED' });
-            //clearForm();
+            setFormOpacity(1);
+            setShowLoading(0);
+            clearForm();
         }
     }
 
@@ -104,21 +114,14 @@ const Form = () => {
             history.push('/');
     }
 
-    const formLoading = () => {
-        return (
-            <></>
-        );
-    };
-
     return (
         <>
             <Container maxWidth="sm" className={classes.formContainer}>
                 <CssBaseline />
                 <div className={classes.paper}>
+                    {<>
                     <Typography component="h1" variant="h5" className={classes.formTitle}>{postId ? 'Edit an item' : 'Add an item to track'}</Typography>
-                    {formState === 1 ? 
-                    <CircularProgress/> :
-                    (<form className={classes.form} noValidate onSubmit={handleSubmit}>
+                    <form className={classes.form} style={{opacity: formOpacity}} noValidate onSubmit={handleSubmit}>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -173,10 +176,13 @@ const Form = () => {
                             variant="contained"
                             color="primary"
                             className={classes.submit}
+                            disabled={Boolean(showLoading)}
                         >
                             Add
                         </Button>
-                    </form>)}
+                    </form>
+                    <CircularProgress style={{opacity: showLoading}} />
+                    </>}
                 </div>
             </Container>
 

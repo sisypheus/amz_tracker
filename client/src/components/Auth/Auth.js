@@ -65,6 +65,7 @@ const Auth = () => {
         dispatch(googleSignup(result));
         dispatch({type: 'REGISTER_PENDING'})
       } catch (err) {
+        dispatch({type: 'REGISTER_FAILED'});
         console.log(err);
       }
     }

@@ -98,12 +98,12 @@ const Post = ({ post, setCurrentId }) => {
                     post.targetPrice <= post.price ?
                         <Typography variant="h4" align="justify" style={{color: 'red', fontWeight: '500'}}>
                             <HighlightOffIcon/>
-                            {post.price}€
+                            {updatedPrice}€
                         </Typography>
                         :
                         <Typography variant="h4" align="justify" style={{color: 'green', fontWeight: '500'}}>
                             <DoneOutlineIcon/>
-                            {post.price}€
+                            {updatedPrice}€
                         </Typography>
                     :
                     <CircularProgress/>

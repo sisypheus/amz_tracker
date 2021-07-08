@@ -7,9 +7,11 @@ export default makeStyles(() => ({
     },
     image: {
         marginLeft: '15px',
-        paddingTop: '15px'
+        paddingTop: '15px',
+        height: '60px',
     },
     appBar: {
+        boxSizing: 'content-box',
         position: 'relative',
         borderRadius: 15,
         padding: '30px 0',

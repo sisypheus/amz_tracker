@@ -16,6 +16,7 @@ export default makeStyles((theme) => ({
     width: '100%',
     textAlign: 'center',
     padding: theme.spacing(10),
+    paddingBottom: theme.spacing(2),
     paddingTop: 0,
   },
   submit: {
@@ -34,14 +35,3 @@ export default makeStyles((theme) => ({
     paddingTop: theme.spacing(10),
   },
 }));
-
-/* Rectangle 1
-
-position: absolute;
-width: 301px;
-height: 438px;
-left: 37px;
-top: 104px;
-
-background: #F2F2F2;
-border-radius: 32px;*/

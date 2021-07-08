@@ -27,7 +27,7 @@ const Navbar = () => {
     return (
         <AppBar elevation={0} className={classes.appBar} position="static" color="inherit">
             <div className={classes.brandContainer}>
-                <img className={classes.image} src={icon} alt="icon" height="60" />
+                <img className={classes.image} src={icon} alt="icon" />
                 <Typography component={Link} to="/" className={classes.heading} variant="h2" align="center">Tracker</Typography>
             </div>
 
