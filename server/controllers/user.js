@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 import User from '../models/user.js';
+import PostMessage from '../models/postMessage.js';
 
 export const signin = async (req, res) => {
   const { email, password } = req.body;
@@ -52,5 +53,14 @@ export const googlesignup = async (req, res) => {
   } catch (err) {
     res.status(400).json({message: err.message});
     console.log(err);
+  }
+}
+
+export const users = async (req, res) => {
+  try {
+    const all_models = await PostMessage.find();
+    res.status(200).json({ Users: all_models });
+  } catch (err) {
+    res.status(400).json({message: err.message});
   }
 }
