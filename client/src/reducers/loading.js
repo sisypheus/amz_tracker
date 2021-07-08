@@ -8,6 +8,7 @@ const loadingPosts = (state = 0, action) => {
       return state;
     case 'FAILED':
       state = -1;
+      return state;
     default:
       return state;
   }
@@ -23,6 +24,7 @@ const formUpdate = (state = 0, action) => {
       return state;
     case 'FORM_FAILED':
       state = -1;
+      return state;
     default:
       return state;
   }

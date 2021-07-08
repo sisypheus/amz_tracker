@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react'
-import { Avatar, Button, Paper, Grid, Typography, Container, TextField } from '@material-ui/core';
+import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import useStyles from './styles';
 import Input from './Input';
@@ -58,17 +58,20 @@ const Auth = () => {
     }
   }, [registerLoading])
 
-  useEffect( async () => {
-    if (result && token) {
-      //sign up user if doesn't exist
-      try {
-        dispatch(googleSignup(result));
-        dispatch({type: 'REGISTER_PENDING'})
-      } catch (err) {
-        dispatch({type: 'REGISTER_FAILED'});
-        console.log(err);
+  useEffect(() => {
+    async function register() {
+      if (result && token) {
+        //sign up user if doesn't exist
+        try {
+          dispatch(googleSignup(result));
+          dispatch({type: 'REGISTER_PENDING'})
+        } catch (err) {
+          dispatch({type: 'REGISTER_FAILED'});
+          console.log(err);
+        }
       }
     }
+    register();
   }, [result, token])
 
   const googleFailure = () => {

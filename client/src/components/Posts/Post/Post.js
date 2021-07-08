@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { CircularProgress, Card, CardActions, CardContent, CardMedia, Button, Typography, Popover, Box } from '@material-ui/core';
+import { CircularProgress, Card, CardActions, CardContent, CardMedia, Button, Typography, Popover } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
@@ -20,7 +20,6 @@ const Post = ({ post, setCurrentId }) => {
     const [updatedPrice, setUpdatedPrice] = useState();
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
-    const id = open ? "simple-popover" : undefined;
     
     const getUpdatePrice = async () => {
         const result = await getItemPrice(post.url);

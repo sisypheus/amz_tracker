@@ -23,6 +23,7 @@ const registerReducer = (state = 0, action) => {
       return state;
     case 'REGISTER_FAILED':
       state = -1;
+      return state;
     default:
       return state;
   }

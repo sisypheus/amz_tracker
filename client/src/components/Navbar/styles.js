@@ -2,8 +2,9 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
     heading: {
-        marginBottom: '5px',
-        color: 'rgba(228, 121, 17, 1)',
+        marginTop: '10px',
+        color: '#FF9900',
+        textDecoration: 'none',
     },
     image: {
         marginLeft: '15px',
@@ -21,10 +22,6 @@ export default makeStyles((theme) => ({
         justifyContent: 'center',
         alignItems: 'center',
         verticalAlign: 'middle',
-    },
-    heading: {
-        color: '#FF9900',
-        textDecoration: 'none',
     },
     brandContainer: {
         display: 'flex',

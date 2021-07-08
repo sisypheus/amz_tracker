@@ -14,7 +14,6 @@ const Form = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const location = useLocation();
-    const formState = useSelector((state) => state.formState);
     const [showLoading, setShowLoading] = useState(0);
     const [formOpacity, setFormOpacity] = useState(1);
     const [open, setOpen] = useState(false);
@@ -86,10 +85,6 @@ const Form = () => {
         else if (postData.image && postData.url && postData.title && postId)
             dispatch(updatePost(postId, postData));
     }, [postData.image, postData.url, postData.title])
-
-    useEffect(() => {
-        //dispatch post here with form state
-    }, [formState]);
 
     const verifyLink = (link) => {
         if (link.substring(0, 11) === 'www.amazon.') {

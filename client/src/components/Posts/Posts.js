@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Post from './Post/Post';
 import { Grid, CircularProgress, Typography } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import useStyles from './styles';
 
 const Posts = ({ setCurrentId }) => {
