@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
     heading: {
         marginBottom: '5px',
         color: 'rgba(228, 121, 17, 1)',
@@ -36,6 +36,11 @@ export default makeStyles(() => ({
         right: 0,
     },
     purple: {
-        marginRight: '20px',
+        marginRight: theme.spacing(2),
+        height: '45px',
+        width: '45px',
+        '&:hover': {
+            cursor: 'pointer',
+        }
     }
 }));

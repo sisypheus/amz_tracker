@@ -19,15 +19,15 @@ const Post = ({ post, setCurrentId }) => {
     const divRef = useRef();
     const [updatedPrice, setUpdatedPrice] = useState();
     const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const id = open ? "simple-popover" : undefined;
     
     const getUpdatePrice = async () => {
         const result = await getItemPrice(post.url);
         setUpdatedPrice(result?.message);
     };
     
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    const handleClose = () => setAnchorEl(null);
     const getItemPrice = (link) => { return dispatch(getPrice(link)); };
 
     useEffect(() => {
@@ -36,9 +36,6 @@ const Post = ({ post, setCurrentId }) => {
             setUpdatedPrice({});
         }
     }, []);
-
-    const open = Boolean(anchorEl);
-    const id = open ? "simple-popover" : undefined;
 
     return (
         <Card className={classes.card}>

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { AppBar, Typography, Toolbar, Avatar, Button } from '@material-ui/core';
+import React, { useState, useEffect, useRef } from 'react';
+import { AppBar, Typography, Toolbar, Avatar, Button, Popover } from '@material-ui/core';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import useStyles from './styles';
 import icon from '../../images/icon3.svg';
@@ -9,11 +9,17 @@ import { useDispatch } from 'react-redux';
 const Navbar = () => {
     const classes = useStyles();
     const history = useHistory();
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
     const dispatch = useDispatch();
     const location = useLocation();
+    const divRef = useRef();
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+
+    const handleClose = () => setAnchorEl(null);
 
     const logout = () => {
+        handleClose();
         dispatch({ type: 'LOGOUT'});
         history.go(0);
         setUser(null);
@@ -34,13 +40,25 @@ const Navbar = () => {
             <Toolbar className={classes.toolbar}>
                  {user ? (
                      <div className={classes.toolbar}>
-                        <Avatar className={classes.purple} alt={user.result.name} src={user.result.imageUrl}>{user.result.name.charAt(0)}</Avatar>
-                        <Button variant="contained" className={classes.logout} color="secondary" onClick={logout}>Logout</Button>
+                        <Avatar ref={divRef} onClick={() => setAnchorEl(divRef.current)} className={classes.purple} alt={user.result.name} src={user.result.imageUrl}>{user.result.name.charAt(0)}</Avatar>
                      </div>
                  ) : (
                     <Button component={Link} to="/auth" variant="contained" color="primary">Sign in</Button>
                  )}
             </Toolbar>
+
+            <Popover
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center"
+                }}
+            >
+                <Button variant="contained" className={classes.logout} color="secondary" onClick={logout}>Logout</Button>
+            </Popover>
+
         </AppBar>
     )
 }
