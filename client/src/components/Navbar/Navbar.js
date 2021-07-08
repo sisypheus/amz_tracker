@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AppBar, Typography, Toolbar, Avatar, Button } from '@material-ui/core';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import useStyles from './styles';
-import icon from '../../images/icon.svg';
+import icon from '../../images/icon3.svg';
 import { useDispatch } from 'react-redux';
 
 

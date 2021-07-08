@@ -7,6 +7,7 @@ export default makeStyles(() => ({
     },
     image: {
         marginLeft: '15px',
+        marginRight: '10px',
         paddingTop: '15px',
         height: '60px',
     },
