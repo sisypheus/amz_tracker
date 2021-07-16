@@ -35,8 +35,15 @@ const Navbar = () => {
         <AppBar elevation={0} className={classes.appBar} position="static" color="inherit">
             <Link to="/" style={{textDecoration: 'none'}}>
                 <div className={classes.brandContainer}>
-                    <img className={classes.image} src={icon} alt="icon" />
-                    <Typography className={classes.heading} variant="h2" align="center">Tracker</Typography>
+                    {!isPhone ? (
+                        <>
+                            <img className={classes.image} src={icon} alt="icon" />
+                            <Typography className={classes.heading} variant="h2" align="center">Tracker</Typography>
+                        </>
+                    ) : (
+                        <img className={classes.image} src={icon} alt="icon" />
+                    )
+                    }
                 </div>
             </Link>
 
