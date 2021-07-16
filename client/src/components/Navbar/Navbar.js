@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { AppBar, Typography, Toolbar, Avatar, Button, Popover } from '@material-ui/core';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import useStyles from './styles';
@@ -12,10 +13,11 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const divRef = useRef();
+    const isPhone = useMediaQuery(theme => (theme.breakpoints.down('xs')));
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
-
+    
     const handleClose = () => setAnchorEl(null);
 
     const logout = () => {
@@ -26,16 +28,17 @@ const Navbar = () => {
     }
 
     useEffect(() => {
-        //const token = user?.token;
         setUser(JSON.parse(localStorage.getItem('profile')));
     }, [location]);
 
     return (
         <AppBar elevation={0} className={classes.appBar} position="static" color="inherit">
-            <div className={classes.brandContainer}>
-                <img className={classes.image} src={icon} alt="icon" />
-                <Typography component={Link} to="/" className={classes.heading} variant="h2" align="center">Tracker</Typography>
-            </div>
+            <Link to="/" style={{textDecoration: 'none'}}>
+                <div className={classes.brandContainer}>
+                    <img className={classes.image} src={icon} alt="icon" />
+                    <Typography className={classes.heading} variant="h2" align="center">Tracker</Typography>
+                </div>
+            </Link>
 
             <Toolbar className={classes.toolbar}>
                  {user ? (
