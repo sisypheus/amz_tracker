@@ -7,7 +7,7 @@ const Add = () => {
     const classes = useStyles();
 
     return (
-        <div style={{position: 'absolute', bottom: '50px', left:'50%', transform: 'translate(-50%)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div className={classes.buttonWrapper}>
             <Link to="/alter" style={{textDecoration: 'none'}}>
                 <Button className={classes.button} size="large" variant="contained" color="primary">
                     Add an item

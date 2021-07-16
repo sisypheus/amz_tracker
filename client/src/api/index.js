@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: 'https://amz-price-checker.herokuapp.com/'})
+const LOCAL = 'http://localhost:5000';
+const PROD = 'https://amz-price-checker.herokuapp.com/';
+const API = axios.create({ baseURL: PROD})
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem('profile'))

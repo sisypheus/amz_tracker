@@ -15,4 +15,13 @@ export default makeStyles(() => ({
             background: '#cb7a00',
         },
     },
+    buttonWrapper: {
+        position: 'absolute',
+        bottom: '50px',
+        left:'50%',
+        transform: 'translate(-50%)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center', 
+    }
 }));

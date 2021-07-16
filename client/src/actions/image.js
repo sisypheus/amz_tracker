@@ -5,7 +5,7 @@ export const getImageUrl = (link) => async (dispatch) => {
         const { data } = await api.getImageUrl(link);
         return data;
     } catch (err) {
-        console.log(err.message);
+        console.log(err);
         return err;
     }
 }
@@ -15,7 +15,7 @@ export const getTitle = (link) => async (dispatch) => {
         const { data } = await api.getTitle(link);
         return data;
     } catch (err) {
-        console.log(err.message);
+        console.log(err);
         return err;
     }
 }
