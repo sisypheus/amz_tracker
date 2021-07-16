@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export default makeStyles(() => ({
+const useStyles = makeStyles({
     button: {
         bottom: '50px',
         position: 'sticky',
@@ -23,4 +23,6 @@ export default makeStyles(() => ({
         justifyContent: 'center',
         alignItems: 'center', 
     }
-}));
+}, {index: 1});
+
+export default useStyles;
