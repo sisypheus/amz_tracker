@@ -1,5 +1,6 @@
-import React, { useState, useEffect} from 'react'
-import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core';
+import React, { useState, useEffect } from 'react'
+import { Avatar, Button, Paper, Grid, Typography, Container, Snackbar } from '@material-ui/core';
+import { Alert } from '@material-ui/lab'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import useStyles from './styles';
 import Input from './Input';
@@ -16,13 +17,14 @@ const Auth = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const registerLoading = useSelector((state) => state.registerLoading);
+  const [open, setOpen] = useState(false);
   const [token, setToken] = useState();
   const [result, setResult] = useState();
   const [Signup, setSignup] = useState(false);
   const [formData, setFormData] = useState(initialState);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit  = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (Signup) {
@@ -51,7 +53,7 @@ const Auth = () => {
 
   useEffect(() => {
     if (registerLoading == 2) {
-      dispatch({type: 'AUTH', data: {result, token}});
+      dispatch({ type: 'AUTH', data: { result, token } });
       history.push('/');
     } else if (registerLoading == -1) {
       console.log('error');
@@ -61,12 +63,11 @@ const Auth = () => {
   useEffect(() => {
     async function register() {
       if (result && token) {
-        //sign up user if doesn't exist
         try {
           dispatch(googleSignup(result));
-          dispatch({type: 'REGISTER_PENDING'})
+          dispatch({ type: 'REGISTER_PENDING' })
         } catch (err) {
-          dispatch({type: 'REGISTER_FAILED'});
+          dispatch({ type: 'REGISTER_FAILED' });
           console.log(err);
         }
       }
@@ -76,9 +77,13 @@ const Auth = () => {
 
   const googleFailure = (error) => {
     console.log(error);
+    setOpen(true);
   };
 
+  const handleClose = () => setOpen(false);
+
   return (
+    <>
       <Container component="main" maxWidth="xs">
         <Paper className={classes.paper} elevation={3}>
           <Avatar className={classes.avatar}>
@@ -89,13 +94,13 @@ const Auth = () => {
             <Grid container spacing={2}>
               {Signup && (
                 <>
-                  <Input name="firstName" label="First Name" handleChange={handleChange} autoFocus half/>
+                  <Input name="firstName" label="First Name" handleChange={handleChange} autoFocus half />
                   <Input name="lastName" label="Last Name" handleChange={handleChange} half />
                 </>
               )}
-              <Input name="email" label="Email Address" handleChange={handleChange} type="email"/>
-              <Input name="password" label="Password" handleChange={handleChange} type={ showPassword ? "text" : "password" } handleShowPassword={handleShowPassword}/>
-              { Signup && <Input name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password"/>}
+              <Input name="email" label="Email Address" handleChange={handleChange} type="email" />
+              <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword} />
+              {Signup && <Input name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password" />}
             </Grid>
             <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
               {Signup ? 'Sign up' : 'Sign in'}
@@ -111,24 +116,30 @@ const Auth = () => {
                   disabled={renderProps.disabled}
                   startIcon={<Icon />}
                   variant="contained"
-                  >
-                    Google Sign In
-                  </Button>
+                >
+                  Google Sign In
+                </Button>
               )}
               onSuccess={googleSuccess}
               onFailure={googleFailure}
-              userAgent="Mozilla/5.0 (Linux; Android 4.1.1; Galaxy Nexus Build/JRO03C) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19"
             />
             <Grid container justify="flex-end">
-                <Grid item>
-                  <Button onClick={switchMode}>
-                    {Signup ? 'Already have an account? Sign in' : 'Don\'t have an account? Sign up'}
-                  </Button>
-                </Grid>
+              <Grid item>
+                <Button onClick={switchMode}>
+                  {Signup ? 'Already have an account? Sign in' : 'Don\'t have an account? Sign up'}
+                </Button>
+              </Grid>
             </Grid>
           </form>
         </Paper>
       </Container>
+
+      <Snackbar open={open} onClose={handleClose} autoHideDuration={2000} >
+        <Alert variant="filled" severity="error">
+          Please use your browser to log in.
+        </Alert>
+      </Snackbar>
+    </>
   )
 }
 
