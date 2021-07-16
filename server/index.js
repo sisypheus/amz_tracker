@@ -24,7 +24,7 @@ app.use('/price', priceRoutes);
 app.use('/user', userRoutes);
 
 app.get('/', (req, res) => {
-    res.send('Hello to backend');
+    res.send('Backend API of amazon price tracker application.');
 })
 
 const PORT = process.env.PORT || 5000;
