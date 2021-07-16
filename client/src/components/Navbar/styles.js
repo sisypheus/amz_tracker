@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export default makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
     heading: {
         marginTop: '10px',
         color: '#FF9900',
@@ -16,12 +16,15 @@ export default makeStyles((theme) => ({
         boxSizing: 'content-box',
         position: 'relative',
         borderRadius: 15,
-        padding: '30px 0',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         verticalAlign: 'middle',
+        paddingTop: 'auto',
+        '@media (min-height: 850px)': {
+            padding: '30px 0',
+        }
     },
     brandContainer: {
         display: 'flex',
@@ -36,8 +39,11 @@ export default makeStyles((theme) => ({
         marginRight: theme.spacing(2),
         height: '45px',
         width: '45px',
+        marginTop: '15px',
         '&:hover': {
             cursor: 'pointer',
-        }
+        },
     }
 }));
+
+export default useStyles;
