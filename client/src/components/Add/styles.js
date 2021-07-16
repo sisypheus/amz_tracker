@@ -5,7 +5,7 @@ const useStyles = makeStyles({
         bottom: '50px',
         position: 'sticky',
         borderRadius: '15px 15px 15px 15px',
-        background: '#FF9900',
+        background: '#FF9900 !important',
         padding: '7px 40px',
         lineHeight: '2.5',
         '&:hover': {

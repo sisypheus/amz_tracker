@@ -5,14 +5,21 @@ import { Link } from 'react-router-dom'
 
 const Add = () => {
     const classes = useStyles();
+    const user = JSON.parse(localStorage.getItem('profile'));
 
     return (
         <div className={classes.buttonWrapper}>
-            <Link to="/alter" style={{textDecoration: 'none'}}>
+            {user ? (
+                <Link to="/alter" style={{textDecoration: 'none'}}>
+                    <Button className={classes.button} size="large" variant="contained" color="primary">
+                        Add an item
+                    </Button>
+                </Link>
+            ) : (
                 <Button className={classes.button} size="large" variant="contained" color="primary">
-                    Add an item
+                    Signin to add an item
                 </Button>
-            </Link>
+            )}
         </div>
     )
 }
