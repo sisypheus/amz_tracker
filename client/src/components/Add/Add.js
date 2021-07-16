@@ -4,7 +4,7 @@ import { Button } from '@material-ui/core';
 import { Link } from 'react-router-dom'
 
 const Add = () => {
-    const classes = useStyles({index: 1});
+    const classes = useStyles();
 
     return (
         <div className={classes.buttonWrapper}>

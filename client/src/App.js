@@ -25,7 +25,7 @@ const theme = createMuiTheme({
 const App = () => {
     return (
         <Router>
-            <ThemeProvider theme={theme}>
+            <ThemeProvider injectFirst theme={theme}>
                 <Switch>
                     <Route exact path={["/"]}>
                         <Base component={PostsPage} />
