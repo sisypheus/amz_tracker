@@ -146,7 +146,7 @@ const Form = () => {
                                                     if (postData.targetPrice === '')
                                                         setPostData({...postData, targetPrice: 1})
                                                     else
-                                                        setPostData({...postData, targetPrice: postData.targetPrice + 1})
+                                                        setPostData({...postData, targetPrice: parseInt(postData.targetPrice) + 1})
                                                 }
                                             }/>
                                         </InputAdornment>
@@ -155,9 +155,13 @@ const Form = () => {
                                             onClick={() =>
                                                 {
                                                     if (postData.targetPrice === '')
-                                                        setPostData({...postData, targetPrice: -1})
-                                                    else
-                                                        setPostData({...postData, targetPrice: postData.targetPrice - 1})
+                                                        setPostData({...postData, targetPrice: 0})
+                                                    else {
+                                                        if (!parseInt(postData.targetPrice))
+                                                            setPostData({...postData, targetPrice: 0});
+                                                        else
+                                                            setPostData({...postData, targetPrice: parseInt(postData.targetPrice) - 1})
+                                                    }
                                                 }
                                             }/>
                                         </InputAdornment>
