@@ -11,7 +11,7 @@ export const getPrice = async (req, res) => {
             }
         }); 
         const $ = cheerio.load(data);
-        let raw_result = $('#priceblock_ourprice').text().replace(/,/g, '.');
+        const raw_result = $('#priceblock_ourprice').text().replace(/\s/g, '').replace(/,/g, '.');
         const result = parseFloat(raw_result);
         res.status(200).json({ message: result });
     } catch (e) {
